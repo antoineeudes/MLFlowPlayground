@@ -15,7 +15,7 @@ from model import LinearVAE
 from utils import load_data
 
 logging.basicConfig(format="%(asctime)s: %(message)s", level=logging.DEBUG)
-set_tracking_uri("postgresql://username:password@postgres:5432/mlflow_db")
+set_tracking_uri("http://mlflow_api:5000/")
 
 
 def global_loss(bce_loss, mu, log_var):

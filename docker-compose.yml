@@ -7,11 +7,18 @@ services:
       POSTGRES_DB: mlflow_db
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
-      
-  mlflow:
+
+  lab_client:
     build: .
+    tty: true
+    volumes:
+      - ./src/:/app/src
+      
+  mlflow_api:
+    image: antoineeudes/mlflow
     ports:
       - "5000:5000"
     command: mlflow server --backend-store-uri postgresql://username:password@postgres:5432/mlflow_db --default-artifact-root file://app/mlruns -h 0.0.0.0
     depends_on: 
       - postgres
+      - lab_client
