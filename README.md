@@ -1,8 +1,7 @@
 # MLFlowPlayground
 
 ## Prerequisites
- - docker
- - docker-compose
+ - docker 3.*.* or higher
 
 ## Installation
 ```bash

@@ -1,11 +1,14 @@
 build:
-	docker-compose build
+	docker compose build
 
 start:
-	docker-compose up
+	docker compose up
 
-run-experiment:
-	docker-compose exec -it mlflow python src/main.python
+mlflow-api/connect:
+	docker compose exec mlflow_api /bin/bash
+
+run/experiment:
+	docker compose exec mlflow_api python src/main.py
 
 uninstall:
-	docker-compose down
+	docker compose down

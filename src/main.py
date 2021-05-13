@@ -55,7 +55,7 @@ def validate(model, dataloader, epoch, criterion, device, num_rows=8):
     dataset_iter = iter(dataloader)
     save_image(
         next(dataset_iter)[0].view(dataloader.batch_size, 1, IMG_SIZE, IMG_SIZE).cpu(),
-        os.path.join(OUTPUT_FOLDER_PATH, f"output_epoch_{0}.png"),
+        os.path.join(OUTPUT_FOLDER_PATH, f"output_epoch_0.png"),
         nrow=num_rows,
     )
 
@@ -94,7 +94,7 @@ def train_model(num_epochs=20, batch_size=64, num_features=20, learning_rate=0.0
     criterion = nn.BCELoss(reduction="sum")
 
     if not os.path.exists(OUTPUT_FOLDER_PATH):
-        os.mkdir("outputs")
+        os.mkdir(OUTPUT_FOLDER_PATH)
 
     with start_run():
 
@@ -107,6 +107,7 @@ def train_model(num_epochs=20, batch_size=64, num_features=20, learning_rate=0.0
                 model, train_loader, criterion, learning_rate, device,
             )
             val_epoch_loss = validate(model, val_loader, epoch, criterion, device)
+            log_metric("validation_loss", val_epoch_loss)
             logging.info(
                 "Train Loss: %s", train_epoch_loss,
             )
@@ -114,10 +115,9 @@ def train_model(num_epochs=20, batch_size=64, num_features=20, learning_rate=0.0
 
         log_param("num_features", num_features)
         log_param("learning_rate", learning_rate)
-        log_metric("validation_loss", val_epoch_loss)
         log_metric("num_epochs", num_epochs)
         log_artifacts(OUTPUT_FOLDER_PATH, ARTIFACTS_PATH)
-        log_model(model, "LinearVAE", registered_model_name="LinearVAE")
+        log_model(model, "LinearVAE")
 
 
 if __name__ == "__main__":
